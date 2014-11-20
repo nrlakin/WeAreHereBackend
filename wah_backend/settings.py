@@ -65,8 +65,8 @@ DATABASES = {
         'NAME': 'wearehere_db',
         'USER': 'wah_admin',
         'PASSWORD': 'jdktawnrl',
-        'HOST': ",
-        'PORT': ",
+        'HOST': '',
+        'PORT': '',
     }
 }
 
