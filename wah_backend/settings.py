@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'wah_test',
-    'cors',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -61,6 +60,14 @@ WSGI_APPLICATION = 'wah_backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'wearehere_db',
+    }
+}
+"""
 
 DATABASES = {
     'default': {
@@ -72,6 +79,7 @@ DATABASES = {
         'PORT': '',
     }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
