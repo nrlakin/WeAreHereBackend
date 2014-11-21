@@ -11,4 +11,3 @@ class OccupantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Occupant
         fields = ('id', 'name', 'room')
-        read_only_fields = ('name', 'id',)
