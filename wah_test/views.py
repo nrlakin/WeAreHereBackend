@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from wah_test.models import CheckIn, Occupant
 from wah_test.serializers import CheckInSerializer, OccupantSerializer
