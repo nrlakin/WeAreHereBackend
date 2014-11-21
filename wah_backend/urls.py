@@ -1,9 +1,12 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-include wah_test.urls
 
 admin.autodiscover()
 
+urlpatterns = [
+     url(r'^', include('wah_test.urls')),
+]
+"""
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'wah_backend.views.home', name='home'),
@@ -15,3 +18,4 @@ urlpatterns = patterns('',
     url(r'^', include(wah_test.urls))
     #url(r'^admin/', include(admin.site.urls)),
 )
+"""
