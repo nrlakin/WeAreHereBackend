@@ -12,5 +12,5 @@ urlpatterns = patterns('',
     #url(r'^db', wah_test.views.as_view().db, name='db'),
     #url(r'^$', wah_test.views.WAH_Test.as_view(), name='api')
     url(r'^', include(wah_test.urls))
-    url(r'^admin/', include(admin.site.urls)),
+    #url(r'^admin/', include(admin.site.urls)),
 )
