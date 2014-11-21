@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from wah_test.models import CheckIn, Occupant
-from wah_test.serialzers import CheckInSerializer, OccupantSerializer
+from wah_test.serializers import CheckInSerializer, OccupantSerializer
 
 # Create your views here.
 class JSONResponse(HttpResponse):
