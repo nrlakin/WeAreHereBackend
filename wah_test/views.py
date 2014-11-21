@@ -21,7 +21,7 @@ def occupancy(request):
     Add new occupant or get list of current occupants.
     """
     if request.method == 'GET':
-        occupantss = Occupant.objects.all()
+        occupants = Occupant.objects.all()
         serializer = OccupantSerializer(occupants, many = True)
         return JSONResponse(serializer.data)
 
