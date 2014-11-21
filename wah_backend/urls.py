@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+include wah_test.urls
 
 admin.autodiscover()
 
