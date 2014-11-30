@@ -37,20 +37,20 @@ class Update(APIView):
         except Occupant.DoesNotExist:
             raise Http404
 
-    def put(self, request, pk, format=None):
-        occupant = self.get_occupant(pk)
+    def put(self, request, id, format=None):
+        occupant = self.get_occupant(id)
         serializer = OccupantSerializer(occupant, data = request.DATA)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request, pk, format=None):
-        occupant = self.get_occupant(pk)
+    def get(self, request, id, format=None):
+        occupant = self.get_occupant(id)
         serializer = OccupantSerializer(occupant)
         return Response(serializer.data)
 
-    def delete(self, request, pk, format=None):
-        occupant = self.get_occupant(pk)
+    def delete(self, request, id, format=None):
+        occupant = self.get_occupant(id)
         occupant.delete()
         return Response(status = status.HTTP_204_NO_CONTENT)
