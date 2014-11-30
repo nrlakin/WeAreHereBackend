@@ -31,7 +31,7 @@ class Update(APIView):
     """
     Update, retrieve, or delete a single user.
     """
-    def get_occupant(self, pk):
+    def get_occupant(self, id):
         try:
             return Occupant.objects.get(pk = id)
         except Occupant.DoesNotExist:
