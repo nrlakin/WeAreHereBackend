@@ -2,52 +2,56 @@ from django.http import HttpResponse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from wah_test.models import CheckIn, Occupant
 from wah_test.serializers import CheckInSerializer, OccupantSerializer
 
 # Create your views here.
 
-@api_view(['GET','POST'])
+class Occupancy(APIView)
 def occupancy(request):
     """
     Add new occupant or get list of current occupants.
     """
-    if request.method == 'GET':
+    def get(self, request, format=None)
         occupants = Occupant.objects.all()
         serializer = OccupantSerializer(occupants, many = True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
+    def post(self, request, format=None):
         serializer = OccupantSerializer(data=request.DATA)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-@api_view(['PUT','GET','DELETE'])
-def update(request, id):
+class Update(APIView):
     """
     Update, retrieve, or delete a single user.
     """
-    try:
-        occupant = Occupant.objects.get(pk = id)
-    except Occupant.DoesNotExist:
-        return Response(status = status.HTTP_404_NOT_FOUND)
+    def get_occupant(self, pk):
+        try:
+            return Occupant.objects.get(pk = id)
+        except Occupant.DoesNotExist:
+            raise Http404
 
-    if request.method == 'PUT':
+    def put(self, request, pk, format=None):
+        occupant = self.get_occupant(pk)
         serializer = OccupantSerializer(occupant, data = request.DATA)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'GET':
+    def get(self, request, pk, format=None):
+        occupant = self.get_occupant(pk)
         serializer = OccupantSerializer(occupant)
         return Response(serializer.data)
 
-    elif request.method == 'DELETE':
+    def delete(self, request, pk, format=None):
+        occupant = self.get_occupant(pk)
         occupant.delete()
         return Response(status = status.HTTP_204_NO_CONTENT)
