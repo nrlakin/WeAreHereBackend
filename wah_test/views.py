@@ -11,8 +11,7 @@ from wah_test.serializers import CheckInSerializer, OccupantSerializer
 
 # Create your views here.
 
-class Occupancy(APIView)
-def occupancy(request):
+class Occupancy(APIView):
     """
     Add new occupant or get list of current occupants.
     """
