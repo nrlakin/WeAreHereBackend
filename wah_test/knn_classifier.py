@@ -28,6 +28,7 @@ class KNNClassifier():
         with current setup.
         Needs some tweaking to fully implement k > 1.
         """
+        print "DEBUG"
         print ranges
         print type(ranges[0]['beacon_id'])
         print type(ranges[0]['rssi'])
