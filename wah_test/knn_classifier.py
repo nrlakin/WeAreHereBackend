@@ -28,6 +28,9 @@ class KNNClassifier():
         with current setup.
         Needs some tweaking to fully implement k > 1.
         """
+        print ranges
+        print type(ranges[0]['beacon_id'])
+        print type(ranges[0]['rssi'])
         by_strength = sorted(ranges, key = (lambda beacon: beacon['rssi']))
         k_nearest = [beacon['beacon_id'] for beacon in by_strength][-self.k:]
         uniques = set(k_nearest)

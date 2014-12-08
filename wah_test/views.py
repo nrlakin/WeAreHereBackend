@@ -7,7 +7,9 @@ from rest_framework.views import APIView
 from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from wah_test.models import CheckIn, Occupant
-from wah_test.serializers import CheckInSerializer, OccupantSerializer
+#from wah_test.serializers import CheckInSerializer, OccupantSerializer
+from wah_test.serializers import *
+from knn_classifier import *
 
 # Create your views here.
 class Location(APIView):
@@ -15,6 +17,10 @@ class Location(APIView):
     Get location from beacon ranges.
     """
     def post(self, request, format=None):
+        serializer = BeaconSerializer(data = request.DATA, many = True)
+        if serializer.is_valid():
+            location = KNNClassifier().get_room(serializer.data)
+            return Response(status = location)
         return Response(status = status.HTTP_204_NO_CONTENT)
 
 class Occupancy(APIView):
