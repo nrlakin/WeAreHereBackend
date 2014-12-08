@@ -5,6 +5,7 @@ admin.autodiscover()
 
 urlpatterns = [
      url(r'^', include('wah_test.urls')),
+     url(r'^test/', include('frontend.urls'))
 ]
 """
 urlpatterns = patterns('',

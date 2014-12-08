@@ -1,5 +1,6 @@
 from django.forms import widgets
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from wah_test.models import CheckIn, Occupant
 
 class Beacon(object):
