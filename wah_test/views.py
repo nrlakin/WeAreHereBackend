@@ -19,7 +19,7 @@ class Location(APIView):
         serializer = BeaconSerializer(data = request.DATA, many = True)
         if serializer.is_valid():
             location = KNNClassifier().get_room(serializer.data)
-            return Response(status = location)
+            return Response({'room_id':location})
         return Response(status = status.HTTP_204_NO_CONTENT)
 
 class Occupancy(APIView):
