@@ -43,6 +43,7 @@ class KNNClassifier():
             print 'locaton: ' + str(self.room_id_map[winner])
             return self.room_id_map[winner]
         except KeyError:
+            print 'error, got ' + winner
             # winning beacon not in map...
             return self.ERROR_ID
 
