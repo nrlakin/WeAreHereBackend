@@ -5,7 +5,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import Http404
-from django.views.decorators.csrf import csrf_exempt
 from wah_test.models import CheckIn, Occupant
 #from wah_test.serializers import CheckInSerializer, OccupantSerializer
 from wah_test.serializers import *

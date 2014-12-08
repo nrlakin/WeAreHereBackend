@@ -40,6 +40,7 @@ class KNNClassifier():
             votes[beacon] += 1
         winner = max(votes.iterkeys(), key = (lambda beacon: votes[beacon]))
         try:
+            print 'locaton: ' + str(self.room_id_map[winner])
             return self.room_id_map[winner]
         except KeyError:
             # winning beacon not in map...
