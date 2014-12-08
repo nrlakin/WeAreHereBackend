@@ -10,6 +10,12 @@ from wah_test.models import CheckIn, Occupant
 from wah_test.serializers import CheckInSerializer, OccupantSerializer
 
 # Create your views here.
+class Location(APIView):
+    """
+    Get location from beacon ranges.
+    """
+    def post(self, request, format=None):
+        return Response(status = status.HTTP_204_NO_CONTENT)
 
 class Occupancy(APIView):
     """
