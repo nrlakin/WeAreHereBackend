@@ -18,9 +18,11 @@ class CheckInSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'room_id','when')
 
 class OccupantSerializer(serializers.ModelSerializer):
+    name = serializers.Field(source='user.username')
     class Meta:
         model = Occupant
         fields = ('id', 'name', 'room_id')
+        depth = 1
 
 class BeaconSerializer(serializers.Serializer):
     beacon_id = serializers.CharField(required=True, max_length = 40)

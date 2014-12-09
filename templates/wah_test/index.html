@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>WeAreHere</title>
+    </head>
+
+    <body>
+        <h1>Testing...</h1>
+        {% if user.is_authenticated %}
+
+        hello {{user.username}}!<br />
+
+        {% else %}
+
+        hello world! <strong>{{ boldmessage }}</strong><br />
+
+        {% endif %}
+
+        {% if occupants %}
+          <u1>
+              {% for occupant in occupants %}
+              <li>{{ occupant.user.username }} : {{ occupant.room_id}}</li>
+              {% endfor %}
+          </u1>
+        {% else %}
+          No one here.</br>
+        {% endif %}
+
+        <a href="/register/">Register Here</a>
+        <br /><a href="/login/">Log In</a>
+    </body>
+
+</html>
