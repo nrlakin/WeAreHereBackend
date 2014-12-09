@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from wah_test import views
 
 urlpatterns = [
@@ -8,4 +8,6 @@ urlpatterns = [
     url(r'^update/(?P<id>[0-9]+)/$', views.Update.as_view()),
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='login')
+    url(r'^authenticate/', include('rest_framework.urls',
+                                    namespace='rest_framework')
 ]
