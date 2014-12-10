@@ -42,18 +42,33 @@ class CheckInView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def get_queryset(self):
+        return Checkin.objects.all()
+
 class UserList(generics.ListAPIView):
-    #queryset = User.objects.all()
+    """
+    Get list of users.
+    """
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
     serializer_class = UserSerializer
     def get_queryset(self):
         return User.objects.all()
 
 class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
+    """
+    Get info for single user.
+    """
     serializer_class = UserSerializer
 
-class CurrentUserDetail(APIView):
+    def get_queryset(self):
+        return User.objects.all()
 
+class CurrentUserDetail(APIView):
+    """
+    Get info for user accessing API.
+    """
     def get(self, request, format=None):
 
         if request.user == None:
@@ -64,6 +79,9 @@ class CurrentUserDetail(APIView):
         return Response(serializer.data)
 
 class Occupancy(generics.ListAPIView):
+    """
+    Get list of current locations.
+    """
     serializer_class = CheckInSerializer
 
     def get_queryset(self):
@@ -73,7 +91,6 @@ class Update(APIView):
     """
     Update, retrieve, or delete a single user.
     """
-
     permission_classes = (IsUserOrReadOnly,)
 
     def get_occupant(self, id):
