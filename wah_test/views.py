@@ -43,7 +43,7 @@ class CheckInView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        return Checkin.objects.all()
+        return CheckIn.objects.all()
 
 class UserList(generics.ListAPIView):
     """
@@ -85,37 +85,7 @@ class Occupancy(generics.ListAPIView):
     serializer_class = CheckInSerializer
 
     def get_queryset(self):
-        return CheckIn.objects.order_by('user', '-when').distinct('user')
-
-class Update(APIView):
-    """
-    Update, retrieve, or delete a single user.
-    """
-    permission_classes = (IsUserOrReadOnly,)
-
-    def get_occupant(self, id):
-        try:
-            return Occupant.objects.get(pk = id)
-        except Occupant.DoesNotExist:
-            raise Http404
-
-    def put(self, request, id, format=None):
-        occupant = self.get_occupant(id)
-        serializer = OccupantSerializer(occupant, data = request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, id, format=None):
-        occupant = self.get_occupant(id)
-        serializer = OccupantSerializer(occupant)
-        return Response(serializer.data)
-
-    def delete(self, request, id, format=None):
-        occupant = self.get_occupant(id)
-        occupant.delete()
-        return Response(status = status.HTTP_204_NO_CONTENT)
+        return CheckIn.objects.exclude(room_id__lt=1).order_by('user', '-when').distinct('user')
 
 def register(request):
     """
