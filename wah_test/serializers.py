@@ -13,9 +13,18 @@ class Beacon(object):
         return {'beacon_id':beacon_id, 'rssi':self.rssi}
 
 class CheckInSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
     class Meta:
         model = CheckIn
-        fields = ('id', 'name', 'room_id','when')
+        fields = ('user','room_id','when')
+
+class UserSerializer(serializers.ModelSerializer):
+    checkins = serializers.PrimaryKeyRelatedField(many = True,
+                                        queryset = CheckIn.objects.all())
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'checkins')
 
 class OccupantSerializer(serializers.ModelSerializer):
     name = serializers.Field(source='user.username')

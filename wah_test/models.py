@@ -3,9 +3,12 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class CheckIn(models.Model):
-    when = models.DateTimeField('checked in', auto_now_add=True)
-    name = models.CharField(max_length = 100, blank = True, default = '')
+    when = models.DateTimeField(auto_now_add=True, editable = False)
     room_id = models.SmallIntegerField(default = 0)
+    user = models.ForeignKey('auth.User', related_name = 'checkins')
+
+    def save(self, *args, **kwargs):
+        super(CheckIn, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ('when',)
@@ -20,4 +23,3 @@ class Occupant(models.Model):
 
     def __unicode__(self):
         return self.user.username
-        

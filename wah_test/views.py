@@ -1,16 +1,20 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import *
+from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import permissions
+from rest_framework import generics
+from rest_framework.authentication import BasicAuthentication
 from django.http import Http404
 from wah_test.models import CheckIn, Occupant
 #from wah_test.serializers import CheckInSerializer, OccupantSerializer
 from wah_test.serializers import *
 from wah_test.forms import *
 from knn_classifier import *
+from wah_test.permissions import *
 
 # Create your views here.
 class Location(APIView):
@@ -26,11 +30,31 @@ class Location(APIView):
             return Response({'room_id':location})
         return Response(status = status.HTTP_204_NO_CONTENT)
 
+class CheckInView(generics.ListCreateAPIView):
+    """
+    Check update room with checkin.
+    """
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = CheckIn.objects.all()
+    serializer_class = CheckInSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 class Occupancy(APIView):
     """
     Add new occupant or get list of current occupants.
     """
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request, format=None):
         occupants = Occupant.objects.all()
@@ -49,7 +73,7 @@ class Update(APIView):
     Update, retrieve, or delete a single user.
     """
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsUserOrReadOnly,)
 
     def get_occupant(self, id):
         try:
