@@ -20,8 +20,11 @@ class CheckInSerializer(serializers.ModelSerializer):
         fields = ('user','room_id','when')
 
 class UserSerializer(serializers.ModelSerializer):
-    checkins = serializers.PrimaryKeyRelatedField(many = True,
-                                        queryset = CheckIn.objects.all())
+    #checkins = serializers.PrimaryKeyRelatedField(many = True,
+    #                                    queryset = CheckIn.objects.all())
+
+    checkins = CheckInSerializer(many = True, read_only = True)
+
     class Meta:
         model = User
         fields = ('id', 'username', 'checkins')

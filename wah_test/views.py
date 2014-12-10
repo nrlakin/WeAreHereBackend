@@ -43,12 +43,25 @@ class CheckInView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 class UserList(generics.ListAPIView):
-    queryset = User.objects.all()
+    #queryset = User.objects.all()
     serializer_class = UserSerializer
+    def get_queryset(self):
+        return User.objects.all()
 
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class CurrentUserDetail(APIView):
+
+    def get(self, request, format=None):
+
+        if request.user == None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.get(id=self.request.user.id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
 
 class Occupancy(APIView):
     """

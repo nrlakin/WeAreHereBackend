@@ -12,6 +12,10 @@ class CheckIn(models.Model):
 
     class Meta:
         ordering = ('when',)
+        get_latest_by = 'when'
+
+    def __unicode__(self):
+        return str(self.when) + ': ' + str(self.room_id)
 
 class Occupant(models.Model):
     # For auth, extend django user model.
