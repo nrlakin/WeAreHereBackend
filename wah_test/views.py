@@ -63,23 +63,11 @@ class CurrentUserDetail(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
-class Occupancy(APIView):
-    """
-    Add new occupant or get list of current occupants.
-    """
-    #permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class Occupancy(generics.ListAPIView):
+    serializer_class = CheckInSerializer
 
-    def get(self, request, format=None):
-        occupants = Occupant.objects.all()
-        serializer = OccupantSerializer(occupants, many = True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = OccupantSerializer(data=request.DATA)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status = status.HTTP_201_CREATED)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        return CheckIn.objects.order_by('user', '-when').distinct('user')
 
 class Update(APIView):
     """
@@ -120,28 +108,28 @@ def register(request):
 
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
-        occ_form = OccupantForm(data=request.POST)
+        #occ_form = OccupantForm(data=request.POST)
 
-        if user_form.is_valid() and occ_form.is_valid():
+        if user_form.is_valid(): #and occ_form.is_valid():
             user = user_form.save()
 
             user.set_password(user.password)
             user.save()
 
-            occupant = occ_form.save(commit=False)
-            occupant.user = user
+            #occupant = occ_form.save(commit=False)
+            #occupant.user = user
 
-            occupant.save()
+            #occupant.save()
 
             registered = True
         else:
-            print user_form.errors, occ_form.errors
+            print user_form.errors  #, occ_form.errors
     else:
         user_form = UserForm()
-        occ_form = OccupantForm()
+        #occ_form = OccupantForm()
 
     return render(request, 'wah_test/register.html',
-            {'user_form': user_form, 'occupant_form':occ_form,
+            {'user_form': user_form, #'occupant_form':occ_form,
             'registered': registered})
 
 def user_login(request):
@@ -168,6 +156,6 @@ def index(request):
     """
     View for debugging.
     """
-    users = Occupant.objects.order_by('user_id')
-    context_dict = {'occupants':users, 'boldmessage': "testing some more"}
+    users = User.objects.order_by('username')
+    context_dict = {'users':users, 'boldmessage': "testing some more"}
     return render(request, 'wah_test/index.html',context_dict)

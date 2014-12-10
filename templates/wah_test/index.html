@@ -17,10 +17,10 @@
 
         {% endif %}
 
-        {% if occupants %}
+        {% if users %}
           <u1>
-              {% for occupant in occupants %}
-              <li>{{ occupant.user.username }} : {{ occupant.room_id}}</li>
+              {% for user in users %}
+              <li>{{ user.username }}</li>
               {% endfor %}
           </u1>
         {% else %}
