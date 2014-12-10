@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class CheckIn(models.Model):
     when = models.DateTimeField(auto_now_add=True, editable = False)
-    room_id = models.SmallIntegerField(default = 0)
+    room_id = models.SmallIntegerField(default = -1)
     user = models.ForeignKey('auth.User', related_name = 'checkins')
 
     def save(self, *args, **kwargs):
