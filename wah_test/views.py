@@ -85,7 +85,7 @@ class Occupancy(generics.ListAPIView):
     serializer_class = CheckInSerializer
 
     def get_queryset(self):
-        return CheckIn.objects.order_by('user', '-when').distinct('user').exclude(room_id__lt=1)
+        return CheckIn.objects.order_by('user', '-when').distinct('user')#.filter(room_id__gt=0)
 
 def register(request):
     """
